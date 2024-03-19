@@ -1,7 +1,7 @@
 {
   "name": "awsp",
   "description": "Easily switch between and manage AWS CLI profiles",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": "Paulo Félix",
   "license": "ISC",
   "homepage": "https://github.com/paulofellix/awsp",
