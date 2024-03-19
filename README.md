@@ -25,6 +25,9 @@ Refer to the AWS CLI Documentation for more information:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
 
 
+## Download
+You can download the latest release from the [releases page](https://github.com/paulofellix/awsp/releases/latest).
+
 ## Usage
 Standard usage is just to call `awsp` and select a profile:
 ```sh
@@ -34,7 +37,7 @@ You can type to filter the list, or arrow through the shown options. Press \<Ent
 
 You can also type a profile with the command to immediately switch:
 ```sh
-awsp development
+awsp -p development
 ```
 
 ## Contributing
@@ -43,6 +46,6 @@ Issues and pull requests are welcome. 😄
 ## License
 This project and the original work are licensed under the [ISC License](LICENSE.md).
 
-Copyright (c) 2021 Abyss
+Copyright (c) 2024 Paulo Félix
 
 Original Work Copyright (c) 2020 Johnny Opao (@ https://github.com/johnnyopao/awsp)

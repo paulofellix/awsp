@@ -1,4 +1,4 @@
-Modifications Copyright 2021 Abyss (https://github.com/abyss/awsp-plus)
+Modifications Copyright 2024 Paulo Félix (https://github.com/paulofellix/awsp)
 Original Copyright 2020 Johnny Opao (https://github.com/johnnyopao/awsp)
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
