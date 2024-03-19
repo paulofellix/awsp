@@ -1,32 +1,90 @@
 {
-  "name": "awsp-plus",
+  "name": "awsp",
   "description": "Easily switch between and manage AWS CLI profiles",
   "version": "1.2.0",
-  "author": "Abyss (https://abyss.dev)",
+  "author": "Paulo Félix",
   "license": "ISC",
-  "homepage": "https://github.com/abyss/awsp-plus",
+  "homepage": "https://github.com/paulofellix/awsp",
   "keywords": [
     "aws",
     "profile",
     "awsp"
   ],
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "rimraf dist build",
+    "esbuild": "rimraf dist && esbuild src/index.ts --bundle --platform=node --outfile=build/index.js",
+    "fix": "gts fix",
+    "start": "tsx src/index.ts",
+    "compile": "npm run clean && npm run esbuild && sh build.sh"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/abyss/awsp-plus.git"
+    "url": "https://github.com/paulofellix/awsp.git"
   },
   "bugs": {
-    "url": "https://github.com/abyss/awsp-plus/issues"
-  },
-  "bin": {
-    "_awspp_prompt": "index.js",
-    "_awspp": "run.sh"
+    "url": "https://github.com/paulofellix/awsp/issues"
   },
   "dependencies": {
+    "esbuild": "^0.20.2",
+    "ini": "^4.1.2",
     "inquirer": "^8.2.0",
     "inquirer-search-list": "^1.2.6"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@types/ini": "^4.1.0",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.11.29",
+    "gts": "^5.2.0",
+    "release-it": "^17.1.1",
+    "rimraf": "^5.0.5",
+    "tsx": "^4.7.1",
+    "typescript": "~5.2.0"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release v${version}",
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "releaseName": "v${version}",
+      "assets": [
+        "dist/*"
+      ]
+    },
+    "npm": {
+      "publish": false
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
+        "preset": {
+          "name": "conventionalcommits",
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            },
+            {
+              "type": "refactor",
+              "section": "Code Refactoring"
+            },
+            {
+              "type": "chore",
+              "section": "Chores"
+            },
+            {}
+          ]
+        }
+      }
+    }
   }
 }
