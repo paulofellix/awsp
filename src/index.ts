@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import inquirer from 'inquirer';
 import ini from 'ini';
 import { createInterface } from 'node:readline';
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
 
 inquirer.registerPrompt('search-list', require('inquirer-search-list'));
 
@@ -19,6 +21,19 @@ let awsCredentials: {
   };
 };
 let awsProfiles: string[];
+
+const parseArgs = () => {
+  return yargs(hideBin(process.argv))
+    .usage('Usage: awsp [options]')
+    .option('profile', {
+      alias: 'p',
+      type: 'string',
+      description: 'Get or set AWS profile',
+    })
+    .strict()
+    .help('h')
+    .alias('h', 'help').parseSync();
+}
 
 const readAwsConfigAndCredentials = () => {
   awsConfig = ini.parse(
@@ -112,6 +127,12 @@ const promptForProfile = async () => {
 };
 
 const configureProfile = (profile: string) => {
+
+  if (!awsProfiles.includes(profile)) {
+    console.error(`Profile ${profile} does not exist`);
+    return;
+  }
+
   awsCredentials.default = {
     ...awsCredentials[profile],
   };
@@ -134,15 +155,44 @@ const writeAwsConfigAndCredentials = () => {
   fs.writeFileSync(`${process.env.HOME}/.aws/config`, ini.stringify(awsConfig));
 };
 
-const main = async (argProfile: string) => {
+const getCurrentProfile = () => {
+  const awsDefaultProfile = awsCredentials.default;
+  if (!awsDefaultProfile) {
+    return '';
+  }
+
+  const awsAccessKeyId = awsDefaultProfile.aws_access_key_id;
+  const awsSecretAccessKey = awsDefaultProfile.aws_secret_access_key;
+
+  const profile = awsProfiles.find(profile => {
+    const profileCredentials = awsCredentials[profile];
+    return (
+      profileCredentials.aws_access_key_id === awsAccessKeyId &&
+      profileCredentials.aws_secret_access_key === awsSecretAccessKey
+    );
+  });
+
+  return profile || '';
+}
+
+
+const main = async () => {
+  const args = parseArgs();
   readAwsConfigAndCredentials();
   await checkDefaultProfile();
-  if (argProfile) {
-    configureProfile(argProfile);
-  } else {
-    const profile = await promptForProfile();
-    configureProfile(profile);
+
+  switch (true) {
+    case 'profile' in args && !Boolean(args.profile):
+      console.log(getCurrentProfile());
+      return;
+    case 'profile' in args && Boolean(args.profile):
+      configureProfile(args.profile!);
+      return;
+    default:
+      const profile = await promptForProfile();
+      configureProfile(profile);
+      return;
   }
 };
 
-main(process.argv[2]);
+main()

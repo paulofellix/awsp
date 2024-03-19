@@ -31,13 +31,15 @@
     "esbuild": "^0.20.2",
     "ini": "^4.1.2",
     "inquirer": "^8.2.0",
-    "inquirer-search-list": "^1.2.6"
+    "inquirer-search-list": "^1.2.6",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/ini": "^4.1.0",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.11.29",
+    "@types/yargs": "^17.0.32",
     "gts": "^5.2.0",
     "release-it": "^17.1.1",
     "rimraf": "^5.0.5",
